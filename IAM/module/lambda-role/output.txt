@@ -1,0 +1,4 @@
+output "ec2_rolename" {
+   value  = "${aws_iam_role.lambda_role.name}"
+
+}

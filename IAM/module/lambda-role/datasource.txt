@@ -1,0 +1,14 @@
+#--custom managed policy
+
+data "template_file" "aws_lambda_policy" {
+   template = "${file("${path.module}/templates/lambdaiampolicy.json.tpl")}"
+
+	
+	
+   vars{
+      
+     env             ="${var.env}"
+     bucket_name     = "bucketname-$"{var.env}"
+
+   }
+}

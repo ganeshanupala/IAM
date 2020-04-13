@@ -1,0 +1,15 @@
+provider "aws" {}
+
+terraform {
+
+    backend "s3" {
+     bucket ="backend bucket_name"
+     key    ="dev/appcode/lambda-role/terraform.tfstate"
+  }
+}
+
+module "lambda_role" {
+  source    = "../../../modules/iam-roles/lambda-role"
+  env       = "dev"
+  role_name = "role name that you want to keep"
+  policy_name = "policyname that you want to keep"

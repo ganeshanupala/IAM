@@ -1,0 +1,15 @@
+variable "env" {
+
+  description = "name of environment"
+}
+
+variable "app_code" {
+
+  description = "app code name"
+  default= "appcode"
+}
+
+variable "all_roles" {
+  type = "list"
+  description = "roles allowed to access s3"
+}

@@ -1,0 +1,14 @@
+variable "env" {
+
+  description = "name of environment"
+}
+
+variable "role_name" {
+
+  description = "The lambda IAM role"
+ 
+}
+
+variable "policy_name" {
+  description = "The lambda IAM policy"
+}

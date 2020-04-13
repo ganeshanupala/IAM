@@ -1,0 +1,17 @@
+provider "aws" {}
+
+terraform {
+
+    backend "s3" {
+     bucket ="backend bucket_name"
+     key    ="dev/appcode/s3-bucket/terraform.tfstate"
+  }
+}
+
+module "s3-bucket" {
+  source    = "../../../modules/s3-bucket"
+  env       = "dev"
+  s3_force_destroy ="true"
+ all_roles  = ["any sysyadm role","role that you created in create role"]
+
+}

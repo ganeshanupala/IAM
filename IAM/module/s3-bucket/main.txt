@@ -1,0 +1,34 @@
+resource "aws_s3_bucket" "appcode_s3_bucket" {
+  bucket = "bucketname-${var.env}" 
+  acl    = "private"
+
+#include policy that will allow contents to be written by aws"
+policy = "${data.template_file.s3_bucket_policy.rendered}"
+
+# the bucket and all objects should be destroyed when force_destroy=true.
+force_destroy= "${var.s3_force_destroy}"
+
+
+tags {
+   Name           ="bucketname-${var.env}"
+   Tech.Env       ="${upper(var.env)}"
+   Tech.Appcode       ="${upper(var.app_code)}"
+  }
+}
+
+
+# this policy will allow the application to write to the bucket
+data "template_file" "s3_bucket_policy" {
+ template ="${file("${path.module}/template/s3_policy.json.tpl")}"
+
+  vars{
+    bucket_name  = "bucketname-${var.env}"
+    all_userids  = "${jsonencode(formatlist("%s:*",data.aws_iam_role.all_roles.*.unique_id))}"
+  }
+}
+
+data "aws_iam_role" "all_roles" {
+  count = "${length(var.all_roles)}"
+  name  = "${var.all_roles[count.index]}"
+}
+   
